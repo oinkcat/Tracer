@@ -7,20 +7,20 @@ class Ray
 {
 public:
 
-	enum TraceType
+	enum class TraceType
 	{
 		Normal,
 		Reflection,
 		Shadow
 	};
 
-	Ray(Vector origin, Vector dir): _origin(origin), _dir(dir) { }
+	Ray(Vector origin, Vector dir): _origin(origin), _dir(dir), scene(nullptr) { }
 
-	Ray(Vector dir): _origin(Vector(0, 0, 0)), _dir(dir) { }
+	Ray(Vector dir): _origin(Vector(0, 0, 0)), _dir(dir), scene(nullptr) { }
 
 	~Ray() { }
 
-	Vector* trace(Scene* scene, TraceType type, Object* excluded = nullptr);
+	Vector trace(Scene* scene, TraceType type, Object* excluded = nullptr);
 
 	Vector& origin()
 	{

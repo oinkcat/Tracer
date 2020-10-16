@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "Ray.h"
 
-Vector* Ray::trace(Scene* scene, TraceType type, Object* excluded)
+Vector Ray::trace(Scene* scene, TraceType type, Object* excluded)
 {
 	const double FINAL_DIST = 0.01;
 
-	if (type == Reflection)
+	if (type == TraceType::Reflection)
 	{
 		assert(excluded != nullptr);
 	}
@@ -27,23 +27,22 @@ Vector* Ray::trace(Scene* scene, TraceType type, Object* excluded)
 
 			if (obj->testHit(point, &dist))
 			{
-				if (type == Shadow)
+				if (type == TraceType::Shadow)
 				{
-					return new Vector(rayLength, rayLength, rayLength);
+					return Vector(rayLength, rayLength, rayLength);
 				}
 				else
 				{
-					Vector smallStepOut = stepIn * (-0.02);
+					Vector stepOut = stepIn * (-0.02);
 
 					while (dist < FINAL_DIST)
 					{
-						point = point + smallStepOut;
+						point = point + stepOut;
 						obj->testHit(point, &dist);
 					}
 				}
 
-				Vector tracedColor = getColorAtPoint(obj, point, type);
-				return new Vector(tracedColor);
+				return getColorAtPoint(obj, point, type);
 			}
 		}
 
@@ -51,13 +50,13 @@ Vector* Ray::trace(Scene* scene, TraceType type, Object* excluded)
 		rayLength += stepIn.length();
 	}
 
-	if (type != Shadow)
+	if (type != TraceType::Shadow)
 	{
-		return nullptr;
+		return Vector(-1.0, -1.0, -1.0);
 	}
 	else
 	{
-		return new Vector(rayLength, rayLength, rayLength);
+		return Vector(rayLength, rayLength, rayLength);
 	}
 }
 
@@ -69,7 +68,7 @@ Vector Ray::getColorAtPoint(Object * obj, Vector point, TraceType type)
 	Vector reflComponent(0, 0, 0);
 	Vector refrComponent(0, 0, 0);
 
-	if (type == Normal)
+	if (type == TraceType::Normal)
 	{
 		reflComponent = traceReflection(obj, point, normal) * 0.7;
 		refrComponent = traceRefraction(obj, point, normal) * 0.5;
@@ -94,19 +93,9 @@ Vector Ray::getColorAtPoint(Object * obj, Vector point, TraceType type)
 Vector Ray::traceReflection(Object * obj, Vector point, Vector dir)
 {
 	Ray reflectionRay(point, dir);
-	Vector* reflColor = reflectionRay.trace(scene, Reflection, obj);
+	Vector reflColor = reflectionRay.trace(scene, TraceType::Reflection, obj);
 
-	if (reflColor != nullptr)
-	{
-		Vector resultColor(*reflColor);
-		delete reflColor;
-
-		return resultColor;
-	}
-	else
-	{
-		return Vector(0, 0, 0);
-	}
+	return (reflColor.x() > 0) ? reflColor : Vector(0, 0, 0);
 }
 
 Vector Ray::traceRefraction(Object * obj, Vector point, Vector dir)
@@ -117,10 +106,9 @@ Vector Ray::traceRefraction(Object * obj, Vector point, Vector dir)
 Vector Ray::traceLuminosity(Object * obj, Vector point)
 {
 	Ray toLight(point, scene->light());
-	Vector* tracedLength = toLight.trace(scene, Shadow);
+	Vector tracedLength = toLight.trace(scene, TraceType::Shadow);
 
-	double lumin = tracedLength->x() / scene->traceDepth();
-	delete tracedLength;
+	double lumin = tracedLength.x() / scene->traceDepth();
 
 	return Vector(lumin, lumin, lumin);
 }

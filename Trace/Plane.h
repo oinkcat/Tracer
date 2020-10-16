@@ -6,7 +6,7 @@ class Plane : public Object
 {
 public:
 	Plane(Vector pos, Vector color, Vector normal);
-	~Plane();
+	~Plane() {}
 
 	Vector normalAt(Vector point) override;
 

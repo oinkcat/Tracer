@@ -7,10 +7,6 @@ Plane::Plane(Vector pos, Vector color, Vector normal)
 {
 }
 
-Plane::~Plane()
-{
-}
-
 Vector Plane::normalAt(Vector point)
 {
 	return normal;

@@ -9,6 +9,8 @@ public:
 	RayTracer(int width, int height, double angle);
 	~RayTracer();
 
+	void clear();
+
 	void tracePart();
 
 	int viewportWidth() const

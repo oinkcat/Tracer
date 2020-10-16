@@ -20,19 +20,24 @@ RayTracer::~RayTracer()
 	delete[] frameBuffer;
 }
 
+void RayTracer::clear()
+{
+	memset(frameBuffer, 0, frameSize);
+}
+
 void RayTracer::tracePart()
 {
 	double halfXAngle = xAngle / 2;
 	double halfYAngle = yAngle / 2;
 
-	int startLine = viewHeight - linesLeft;
-	int endLine = startLine + linesPerThread;
+	int startLine = viewHeight - (int)linesLeft;
+	int endLine = startLine + (int)linesPerThread;
 	linesLeft -= linesPerThread;
 
-	// All rest lines for last thread
+	// All remaining lines for last thread
 	if (linesLeft < linesPerThread)
 	{
-		endLine += linesLeft;
+		endLine += (int)linesLeft;
 		linesLeft = 0;
 	}
 
