@@ -14,8 +14,8 @@ Vector Plane::normalAt(Vector point)
 
 Vector Plane::colorAt(Vector point)
 {
-	int iX = (int)point.x();
-	int iZ = (int)point.z();
+	int iX = (int)ceil(point.x());
+	int iZ = (int)ceil(point.z());
 
 	if ((iX + iZ) % 2 == 0)
 	{
