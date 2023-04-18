@@ -41,20 +41,27 @@ void RayTracer::tracePart()
 		linesLeft = 0;
 	}
 
-	for (int y = startLine; y < endLine; y++)
-	{
-		for (int x = 0; x < viewWidth; x++)
-		{
-			double aX = (double)y / viewHeight * yAngle - halfYAngle;
-			double aY = (double)x / viewWidth * xAngle - halfXAngle;
+	int triIdx = startLine * viewWidth * 3;
 
+	double daX = yAngle / viewHeight;
+	double daY = xAngle / viewWidth;
+
+	double aX = startLine * daX - halfYAngle;
+
+	for (int y = startLine; y < endLine; y++, aX += daX)
+	{
+		double aY = -halfXAngle;
+
+		for (int x = 0; x < viewWidth; x++, aY += daY)
+		{
 			Vector colorAtPoint = scene.traceAt(aX, aY);
 
-			int triIdx = (y * viewWidth + x) * 3;
 			// BGR
 			frameBuffer[triIdx + 2] = (unsigned char)(colorAtPoint.x() * 255);
 			frameBuffer[triIdx + 1] = (unsigned char)(colorAtPoint.y() * 255);
 			frameBuffer[triIdx] = (unsigned char)(colorAtPoint.z() * 255);
+
+			triIdx += 3;
 		}
 	}
 }

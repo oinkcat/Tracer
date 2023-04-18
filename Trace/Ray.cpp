@@ -68,7 +68,7 @@ Vector Ray::getColorAtPoint(Object * obj, Vector point, TraceType type)
 	Vector reflComponent(0, 0, 0);
 	Vector refrComponent(0, 0, 0);
 
-	if (type == TraceType::Normal)
+	if (type == TraceType::Light)
 	{
 		reflComponent = traceReflection(obj, point, normal) * 0.7;
 		refrComponent = traceRefraction(obj, point, normal) * 0.5;

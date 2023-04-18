@@ -41,9 +41,8 @@ Vector Scene::traceAt(double aX, double aY)
 	double z = cos(aX) * cos(aY);
 
 	Ray ray(origin, Vector(x, y, z));
-	double len = ray.dir().length();
 
-	Color tracedColor = ray.trace(this, Ray::TraceType::Normal);
+	Color tracedColor = ray.trace(this, Ray::TraceType::Light);
 
 	return (tracedColor.x() > 0) ? tracedColor : defaultColor;;
 }

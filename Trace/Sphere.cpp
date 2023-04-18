@@ -2,7 +2,7 @@
 #include "Sphere.h"
 
 Sphere::Sphere(Vector pos, double r, Vector color) 
-	: Object(pos, color), radius(r)
+	: Object(pos, color), radius(r), squaredRadius(r * r)
 {
 }
 
@@ -27,9 +27,9 @@ bool Sphere::testHit(Vector point, double *dist)
 			  position.y() - point.y(),
 			  position.z() - point.z());
 
-	double length = sqrt(dv.dot(dv));
+	double length = dv.dot(dv);
 
-	*dist = length - radius;
+	*dist = length - squaredRadius;
 
-	return length <= radius;
+	return length <= squaredRadius;
 }

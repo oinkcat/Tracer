@@ -134,7 +134,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
-	WNDCLASSEXW wcex;
+	WNDCLASSEXW wcex{};
 
 	wcex.cbSize = sizeof(WNDCLASSEX);
 
@@ -181,7 +181,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	// Initialize raytracer
 	RECT clientArea;
 	GetClientRect(hWnd, &clientArea);
-	tracer = new RayTracer(clientArea.right, clientArea.bottom, VIEW_ANGLE);
+	tracer = new RayTracer(WIN_WIDTH, WIN_HEIGHT, VIEW_ANGLE);
 
 	StartRender();
 

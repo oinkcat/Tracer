@@ -21,5 +21,6 @@ public:
 
 private:
 	double radius;
+	double squaredRadius;
 };
 

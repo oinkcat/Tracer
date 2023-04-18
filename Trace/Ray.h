@@ -9,7 +9,7 @@ public:
 
 	enum class TraceType
 	{
-		Normal,
+		Light,
 		Reflection,
 		Shadow
 	};
