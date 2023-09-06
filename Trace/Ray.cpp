@@ -22,6 +22,7 @@ Vector Ray::trace(Scene* scene, TraceType type, Object* excluded)
 		for (auto obj : scene->sceneObjects())
 		{
 			if (obj == excluded) { continue; }
+			if (!obj->testBoundingBox(point)) { continue; }
 
 			double dist;
 

@@ -12,6 +12,8 @@ public:
 
 	Vector colorAt(Vector point) override;
 
+	bool testBoundingBox(Vector point) override;
+
 	bool testHit(Vector point, double *dist) override;
 
 	double rad()
@@ -22,5 +24,7 @@ public:
 private:
 	double radius;
 	double squaredRadius;
+
+	Vector boxMin, boxMax;
 };
 

@@ -12,6 +12,8 @@ public:
 
 	virtual Vector colorAt(Vector point) = 0;
 
+	virtual bool testBoundingBox(Vector point) = 0;
+
 	virtual bool testHit(Vector point, double *dist) = 0;
 
 	Vector& pos()

@@ -12,6 +12,8 @@ public:
 
 	Vector colorAt(Vector point) override;
 
+	bool testBoundingBox(Vector point) override;
+
 	bool testHit(Vector point, double *dist) override;
 
 private:

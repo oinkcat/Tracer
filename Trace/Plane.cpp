@@ -27,6 +27,11 @@ Vector Plane::colorAt(Vector point)
 	}
 }
 
+bool Plane::testBoundingBox(Vector point)
+{
+	return true;
+}
+
 bool Plane::testHit(Vector point, double *dist)
 {
 	Vector dv(point.x() - position.x(), 

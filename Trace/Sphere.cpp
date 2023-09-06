@@ -2,7 +2,9 @@
 #include "Sphere.h"
 
 Sphere::Sphere(Vector pos, double r, Vector color) 
-	: Object(pos, color), radius(r), squaredRadius(r * r)
+	: Object(pos, color), radius(r), squaredRadius(r * r),
+	  boxMin(pos.x() - radius, pos.y() - radius, pos.z() - radius),
+	  boxMax(pos.x() + radius, pos.y() + radius, pos.z() + radius)
 {
 }
 
@@ -12,13 +14,19 @@ Sphere::~Sphere()
 
 Vector Sphere::normalAt(Vector point)
 {
-	Vector normal = (point - position).normalize();
-	return normal;
+	return (point - position).normalize();
 }
 
 Vector Sphere::colorAt(Vector point)
 {
 	return diffuse;
+}
+
+bool Sphere::testBoundingBox(Vector point)
+{
+	return (point.x() >= boxMin.x() && point.x() <= boxMax.x()) &&
+		   (point.y() >= boxMin.y() && point.y() <= boxMax.y()) &&
+		   (point.z() >= boxMin.z() && point.z() <= boxMax.z());
 }
 
 bool Sphere::testHit(Vector point, double *dist)
